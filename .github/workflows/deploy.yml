@@ -19,7 +19,7 @@ jobs:
     - name: Setup Firebase CLI
       uses: w9jds/setup-firebase@d855fa20e1b50e7d53d8b0d283186f98db963f36
       with:
-        tools-version: 11.9.0
+        tools-version: 11.16.1
         firebase_token: ${{ secrets.FIREBASE_TOKEN }}
     - name: Install dependencies
       run: npm ci

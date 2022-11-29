@@ -1,0 +1,11 @@
+diff --git a/node_modules/typegram/index.d.ts b/node_modules/typegram/index.d.ts
+index 6f136cb..7b35f60 100644
+--- a/node_modules/typegram/index.d.ts
++++ b/node_modules/typegram/index.d.ts
+@@ -7,5 +7,5 @@ export * from "./menu-button";
+ export * from "./message";
+ export * from "./passport";
+ export * from "./payment";
+-export * from "./proxied";
++export { type Typegram } from "./proxied";
+ export * from "./update";
