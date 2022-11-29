@@ -1,0 +1,29 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-22.04
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Setup node
+      uses: actions/setup-node@v3
+      with:
+        node-version-file: package.json
+        cache: npm
+    - name: Setup Firebase CLI
+      uses: w9jds/setup-firebase@d855fa20e1b50e7d53d8b0d283186f98db963f36
+      with:
+        tools-version: 11.9.0
+        firebase_token: ${{ secrets.FIREBASE_TOKEN }}
+    - name: Install dependencies
+      run: npm ci
+    - name: Deploy Firebase functions
+      run: firebase deploy -P sejuega-telegram-bot --only functions
+    - name: Update Telegram bot webhook URL
+      run: curl -vv -X GET "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/setWebhook?url=https://us-central1-sejuega-telegram-bot.cloudfunctions.net/helloWorld"
