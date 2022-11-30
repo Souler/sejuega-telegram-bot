@@ -1,9 +1,9 @@
 import { Scenes } from 'telegraf'
-import store from '../store'
+import store from '../../store'
 
 export function joinGroupWizardScene() {
   return new Scenes.WizardScene(
-    'JOIN_GROUP_WIZARD_SCENE_ID',
+    'JOIN_GROUP',
     async ctx => {
       await ctx.reply('Trying to join a group? Send me its join code!')
   

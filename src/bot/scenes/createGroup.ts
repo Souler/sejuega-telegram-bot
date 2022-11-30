@@ -1,9 +1,9 @@
 import { Scenes } from 'telegraf'
-import store from '../store'
+import store from '../../store'
 
 export function createGroupWizardScene() {
   return new Scenes.WizardScene(
-    'CREATE_GROUP_WIZARD_SCENE_ID',
+    'CREATE_GROUP',
 
     async ctx => {
       await ctx.reply('Ok, we are creating a new group. What\'s its name?')

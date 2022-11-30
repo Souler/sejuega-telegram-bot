@@ -1,0 +1,17 @@
+diff --git a/node_modules/telegraf-session-firebase/index.d.ts b/node_modules/telegraf-session-firebase/index.d.ts
+new file mode 100644
+index 0000000..17fc568
+--- /dev/null
++++ b/node_modules/telegraf-session-firebase/index.d.ts
+@@ -0,0 +1,11 @@
++import type { Reference } from 'firebase-admin/database'
++import type { MiddlewareFn, Context } from 'telegraf'
++
++interface Options {
++  property?: string
++  getSessionKey?: (ctx: Context) => string
++}
++
++function telegrafSessionMiddleware(sesionsRef: Reference, options?: Options): MiddlewareFn<Context>
++
++export = telegrafSessionMiddleware

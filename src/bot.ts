@@ -1,7 +1,9 @@
-import { Telegraf, Context as TelegrafContext, Scenes, session } from 'telegraf'
-import { createGroupWizardScene } from './scenes/createGroup'
-import { joinGroupWizardScene } from './scenes/joinGroup'
-import { startGameAppointmentWizardScene } from './scenes/startGameAppointment'
+import { Telegraf, Context as TelegrafContext, Scenes } from 'telegraf'
+import { createGroupWizardScene } from './bot/scenes/createGroup'
+import { joinGroupWizardScene } from './bot/scenes/joinGroup'
+import { startGameAppointmentWizardScene } from './bot/scenes/startGameAppointment'
+import { session } from './bot/middlewares/session'
+import { log } from './bot/middlewares/log'
 import store from './store'
 
 type BotContext = TelegrafContext & { scene: any } // FIXME: properly type this
@@ -18,6 +20,7 @@ export function configureBot(token: string, options?: Partial<Telegraf.Options<B
     startGameAppointmentScene,
   ])
 
+  bot.use(log())
   bot.use(session())
   bot.use(stage.middleware())
 

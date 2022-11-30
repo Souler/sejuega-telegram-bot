@@ -1,10 +1,10 @@
 import assert from 'assert'
 import { Scenes } from 'telegraf'
-import store from '../store'
+import store from '../../store'
 
 export function startGameAppointmentWizardScene() {
   return new Scenes.WizardScene(
-    'START_GAME_APPOINTMENT_WIZARD_SCENE_ID',
+    'START_GAME_APPOINTMENT',
 
     async ctx => {
       await ctx.reply('What game are we playing?', {
