@@ -24,6 +24,13 @@ jobs:
     - name: Install dependencies
       run: npm ci
     - name: Deploy Firebase functions
-      run: firebase deploy -P sejuega-telegram-bot --only functions
+      run: |
+        firebase use sejuega-telegram-bot
+        firebase functions:config:set telegram.token="${{ secrets.TELEGRAM_BOT_TOKEN }}"
+        firebase deploy --only functions
+        echo TELEGRAM_BOT_WEBHOOK_URL=$(firebase functions:list --json | jq -r '.result[0].uri') >> $GITHUB_ENV
     - name: Update Telegram bot webhook URL
-      run: curl -vv -X GET "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/setWebhook?url=https://us-central1-sejuega-telegram-bot.cloudfunctions.net/helloWorld"
+      env:
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        TELEGRAM_BOT_WEBHOOK_URL: ${{ env.TELEGRAM_BOT_WEBHOOK_URL }}
+      run: curl -vv -X GET "https://api.telegram.org/bot${{ env.TELEGRAM_BOT_TOKEN }}/setWebhook?url=$TELEGRAM_BOT_WEBHOOK_URL/${{ env.TELEGRAM_BOT_TOKEN }}"
