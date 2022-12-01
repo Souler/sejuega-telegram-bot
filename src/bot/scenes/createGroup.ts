@@ -1,5 +1,5 @@
 import { Scenes } from 'telegraf'
-import store from '../../store'
+import db from '../../database'
 
 export function createGroupWizardScene() {
   return new Scenes.WizardScene(
@@ -18,7 +18,7 @@ export function createGroupWizardScene() {
 
       const groupName = ctx.message?.text
       const userId = ctx.message?.from.id  
-      const group = await store.createGroup({ name: groupName, ownerId: userId })
+      const group = await db.createGroup({ name: groupName, ownerId: userId })
   
       await ctx.reply(
         `Group "${group.name}" created\\. Code for joining: \`${group.joinCode}\``,

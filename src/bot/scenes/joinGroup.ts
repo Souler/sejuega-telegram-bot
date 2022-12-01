@@ -1,5 +1,5 @@
 import { Scenes } from 'telegraf'
-import store from '../../store'
+import db from '../../database'
 
 export function joinGroupWizardScene() {
   return new Scenes.WizardScene(
@@ -19,16 +19,16 @@ export function joinGroupWizardScene() {
       const joinCode = ctx.message.text
       const userId = ctx.message.from.id
 
-      const group = await store.findGroup({ joinCode })
+      const group = await db.findGroup({ joinCode })
 
       if (!group) {
         await ctx.reply('Looks like that join code is wrong :(')
         return ctx.wizard.next()
       }
 
-      await store.addGroupMember({ groupId: group.groupId, userId })
+      await db.addGroupMember({ groupId: group.groupId, userId })
 
-      const members = await store.findGroupMembers({ groupId: group.groupId })
+      const members = await db.findGroupMembers({ groupId: group.groupId })
   
       await ctx.reply(
         `Done\\! You just joined group **${group.name}** along ${members.length - 1} others\\!`,

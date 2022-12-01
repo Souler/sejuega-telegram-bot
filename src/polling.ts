@@ -1,15 +1,12 @@
 import 'dotenv/config'
 import assert from 'assert'
-import { initializeApp } from 'firebase-admin/app'
 import { configureBot } from './bot'
+import { initializeStore } from './store'
 
 const token = process.env.TELEGRAM_BOT_TOKEN
-const databaseURL = process.env.FIREBASE_DATABASE_URL
-
 assert(token, 'missing environment variable TELEGRAM_BOT_TOKEN')
-assert(databaseURL, 'missing environment variable FIREBASE_DATABASE_URL')
 
-initializeApp({ databaseURL })
+initializeStore('dev')
 
 const bot = configureBot(token)
 

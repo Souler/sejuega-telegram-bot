@@ -2,11 +2,13 @@ import assert from 'assert'
 import { initializeApp } from 'firebase-admin/app'
 import * as functions from 'firebase-functions'
 import { configureBot } from './bot'
+import { initializeStore } from './store'
 
 const token = functions.config().telegram.token
 assert(token, 'missing firebase functions config: telegram.token')
 
 initializeApp()
+initializeStore('firebase')
 
 const bot = configureBot(token, { telegram: { webhookReply: true } })
 

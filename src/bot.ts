@@ -4,7 +4,7 @@ import { joinGroupWizardScene } from './bot/scenes/joinGroup'
 import { startGameAppointmentWizardScene } from './bot/scenes/startGameAppointment'
 import { session } from './bot/middlewares/session'
 import { log } from './bot/middlewares/log'
-import store from './store'
+import db from './database'
 
 type BotContext = TelegrafContext & { scene: any } // FIXME: properly type this
 
@@ -25,7 +25,7 @@ export function configureBot(token: string, options?: Partial<Telegraf.Options<B
   bot.use(stage.middleware())
 
   bot.command('start', async (ctx, next) => {
-    await store.saveUser({
+    await db.saveUser({
       userId: ctx.from.id,
       firstName: ctx.from.first_name,
       username: ctx.from.username ?? null,

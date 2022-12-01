@@ -1,8 +1,33 @@
 import { MiddlewareFn, Context } from 'telegraf'
-import firebaseSession from 'telegraf-session-firebase'
-import { getDatabase } from 'firebase-admin/database'
+import store from '../../store'
 
-export function session(): MiddlewareFn<Context> {
-  const sesionsRef = getDatabase().ref('sessions')
-  return firebaseSession(sesionsRef, { property: '_sessions' })
+interface SessionOptions {
+  property?: string,
+  getSessionKey?: (ctx: Context) => string | undefined
+}
+
+export function session(options: SessionOptions = {}): MiddlewareFn<Context> {
+  const {
+    property = 'session',
+    getSessionKey = ctx => ctx.from && ctx.chat && `_sessions/${ctx.from.id}/${ctx.chat.id}`,
+  } = options 
+
+  return async (ctx, next) => {
+    const key = getSessionKey(ctx)
+
+    if (!key) {
+      return next()
+    }
+
+    let session = (await store.get(key)) ?? {}
+    Object.defineProperty(ctx, property, {
+      get: () => session,
+      set: (newValue) => { session = Object.assign({}, newValue) },
+    })
+
+    await next()
+    await store.update({
+      [key]: session && Object.keys(session).length > 0 ? session : null
+    })
+  }
 }

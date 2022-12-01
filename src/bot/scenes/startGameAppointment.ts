@@ -1,6 +1,6 @@
 import assert from 'assert'
 import { Scenes } from 'telegraf'
-import store from '../../store'
+import db from '../../database'
 
 export function startGameAppointmentWizardScene() {
   return new Scenes.WizardScene(
@@ -53,7 +53,7 @@ export function startGameAppointmentWizardScene() {
       Object.assign(ctx.wizard.state, { time })
 
       const userId = ctx.callbackQuery.from.id  
-      const groups = await store.findUserGroups({ userId })
+      const groups = await db.findUserGroups({ userId })
       
       await ctx.editMessageText(`Which group should I notify about this gathering?`, {
         reply_markup: {
@@ -72,8 +72,8 @@ export function startGameAppointmentWizardScene() {
       const groupId = ctx.callbackQuery.data
       Object.assign(ctx.wizard.state, { groupId })
 
-      const group = await store.findGroup({ groupId })
-      const members = await store.findGroupMembers({ groupId })
+      const group = await db.findGroup({ groupId })
+      const members = await db.findGroupMembers({ groupId })
       
       assert(group, `can't find group ${groupId}`)
 
