@@ -9,6 +9,6 @@
 - Run `npm start`
 - Interact with your bot on Telegram and you should start seeing some logs
 
-> ⚠️ Persistence layer used is stored **in-memory** meaning everytime you run `npm start` it starts with an empty state
+> ⚠️ Persistence layer used is stored **in a `.store.json` file** at the root of the project
 
 > ⚠️ The bot runs in polling mode (as opposed to webhook). This means behavior might differ a bit from production; where webhook mode is used.
