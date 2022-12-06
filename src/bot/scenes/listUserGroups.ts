@@ -39,9 +39,12 @@ export function listUserGroupsWizardScene() {
         .map((member, index) => `${index + 1}\\. ${member.username ?? member.firstName}\n`)
         .join('')
 
-      await ctx.reply(`Here you go, these are the members of the group **${group.name}**:\n${membersList}`, {
-        parse_mode: 'MarkdownV2',
-      })
+      await ctx.editMessageText(
+        `Here you go, these are the members of the group **${group.name}**:\n${membersList}`,
+        {
+          parse_mode: 'MarkdownV2',
+        },
+      )
 
       return ctx.scene.leave()
     },
